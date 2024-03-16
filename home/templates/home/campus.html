@@ -1,0 +1,22 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<center>
+    <h1>{{name}}! Wellcom To The Strugler's  <br> {{month}} {{year}} </h1>
+<b>
+    As of {{time}}
+    <br>
+    <br>
+
+    {{ cal|safe }}
+    
+    <br>
+    <br>
+   Copyright (c) {{ current_year }}
+    </center>
+
+
+
+
+
+    {% endblock content %}
