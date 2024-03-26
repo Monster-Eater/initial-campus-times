@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Event
 from .models import Venue
-from .models import MyClubUser
+from .models import MyClubUser, Donate, Category
 from .models import Profile, Meep, Complaint
 from django.contrib.auth.models import User, Group
 
@@ -9,7 +9,8 @@ admin.site.unregister (Group)
 admin.site.register(Profile)
 admin.site.register(MyClubUser)
 admin.site.register(Complaint)
-
+admin.site.register(Donate)
+admin.site.register(Category)
 class ProfileInline(admin.StackedInline):
     model = Profile
 

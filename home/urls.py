@@ -1,6 +1,6 @@
 from django.urls import path 
 from home import views
-
+from .views import AddCategoryView, CategoryView
 
 urlpatterns = [
     # path('<int:year>/<str:month>/', views.home, name = 'home' )
@@ -43,5 +43,20 @@ urlpatterns = [
     path('criminology', views.criminology, name = 'criminology' ),       
     path('masscomm', views.masscomm, name = 'masscomm' ),       
     path('mediasci', views.mediasci, name = 'mediasci' ),       
-    path('sociology', views.sociology, name = 'sociology' ),       
+    path('sociology', views.sociology, name = 'sociology' ),  
+    path('bmi', views.bmi, name = 'bmi' ),     
+    path('donate', views.donate, name = 'donate' ),  
+    path('predict', views.predict, name = 'predict' ),
+    path("result", views.result, name="result"),
+    path('add_category/', AddCategoryView.as_view(), name='add_category' ),
+    path('category/<str:cats>/', CategoryView, name = 'category'),
+    path('meep_show/<int:pk>', views.meep_show, name='meep_show'),
+    path('unfollow/<int:pk>', views.unfollow, name='unfollow'),
+    path('follow/<int:pk>', views.follow, name='follow'),
+    path('profile/followers/<int:pk>', views.followers, name = 'followers'),
+    path('profile/follows/<int:pk>', views.follows, name = 'follows'),
+    path('delete_meep/<int:pk>', views.delete_meep, name = 'delete_meep'),
+    path('edit_meep/<int:pk>', views.edit_meep, name = 'edit_meep'),
+    path('search/', views.search, name = 'search'),
+    path('search_user/', views.search_user, name = 'search_user'),
 ] 

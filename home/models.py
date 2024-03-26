@@ -1,6 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.urls import reverse
+
+
+class Donate(models.Model):
+    name= models.CharField(max_length=120)
+    email= models.CharField(max_length=100)
+    phone= models.CharField(max_length=20)
+    desc= models.TextField()
+    date= models.DateField()
+    def __str__(self):
+        return self.name
+
+
 
 class Complaint(models.Model):
     name= models.CharField(max_length=120)
@@ -12,15 +25,33 @@ class Complaint(models.Model):
     def __str__(self):
         return self.name
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    def get_absolute_url(self):
+        return reverse('home')
+    
 #Create Meep Model
 class Meep(models.Model):
     user = models.ForeignKey(
         User, related_name= "meeps",
         on_delete= models.DO_NOTHING
     )
-    body = models.CharField(max_length=500)
+    body = models.CharField(max_length=50000)
     created_at = models.DateTimeField(auto_now_add = True)
     likes = models.ManyToManyField(User, related_name = "meep_like", blank = True)
+    category = models.CharField(max_length= 255, default='Entertainment')
+    title = models.CharField(max_length=255, default = 'No Title')
+
+    def __str__(self):
+        return self.title + ' | ' + str(self.user)
+
+
+    def get_absolute_url (self):
+        # return reverse('article-detail', args = (str(self.id)))
+        return reverse('home')
 
 
     def number_of_likes(self):
@@ -31,6 +62,8 @@ class Meep(models.Model):
             f'{self.user}'
             f'({self.created_at:%Y-%m-%d %H:%M}):'
             f"{self.body}..."
+            f"{self.title}"
+            f"{self.category}"
            )
 
 class Profile(models.Model):
@@ -42,6 +75,11 @@ class Profile(models.Model):
 
     date_modified = models.DateTimeField(User, auto_now = True)
     profile_image = models.ImageField(null = True, blank = True, upload_to = 'profile-images/')
+    profile_bio = models.CharField(null=True, blank=True, max_length=500)
+    homepage_link = models.CharField(null=True, blank=True, max_length=200)
+    facebook_link = models.CharField(null=True, blank=True, max_length=200)
+    instagram_link = models.CharField(null=True, blank=True, max_length=200)
+    linkdin_link = models.CharField(null=True, blank=True, max_length=200)
 
     def __str__(self):
         return self.user.username

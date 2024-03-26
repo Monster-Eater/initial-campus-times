@@ -30,7 +30,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     messages.success(request, ('Hey! You have Been logged out...'))
-    return redirect ('login')
+    return redirect ('home')
    
 def register_user(request):
     form = SignUpForm()

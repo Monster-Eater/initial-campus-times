@@ -1,22 +1,24 @@
 from django import forms
 from django.forms  import ModelForm
-from .models import Venue, Event, Meep
+from .models import Venue, Event, Meep, Category
 
 
+
+choices = Category.objects.all().values_list('name', 'name')
+choice_list = []
+for item in choices:
+    choice_list.append(item)
 
 
 
 class MeepForm(forms.ModelForm):
-    body = forms.CharField(required=True,
-    widget =forms.widgets.Textarea(attrs ={
-        "placeholder" : "Enter Your Meep!", 
-        "class" : "form-control"
-        } ),
-        label="",)
-    
+    body = forms.CharField(required=True,widget =forms.widgets.Textarea(attrs ={"placeholder" : "Enter Your Meep!", "class" : "form-control"} ),label="",)
+    title = forms.CharField(required=True,label = '', widget =forms.widgets.TextInput (attrs ={"placeholder" : "Enter Meep-Title!", "class" : "form-control"} ),)
     class Meta:
         model = Meep
         exclude = ("user", "likes", )
+        widgets= {
+    'category' :forms.Select(choices=choice_list, attrs={'class': 'form-control'})}
 
     
 
