@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView
 from django import forms
 from django.contrib import messages 
-from . forms import SignUpForm, ProfilePicForm
+from . forms import SignUpForm, ProfilePicForm, UpdateUserForm, ChangePasswordFrom
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from home.models import Profile
@@ -54,7 +54,7 @@ def update_user(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id = request.user.id)
         profile_user = Profile.objects.get(user__id = request.user.id)
-        user_form = SignUpForm(request.POST or None, request.FILES or None,instance= current_user)
+        user_form = UpdateUserForm(request.POST or None, request.FILES or None,instance= current_user)
         profile_form = ProfilePicForm(request.POST or None, request.FILES or None, instance= profile_user)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -63,31 +63,35 @@ def update_user(request):
             login(request, current_user)
             messages.success(request, ('Your profile Has Been Updated...!'))
             return redirect('home')  
-        
-        
-        return render(request, 'registration/update_user.html', {'user_form': user_form, 'profile_form': profile_form})  
+        else:
+            return render(request, 'registration/update_user.html', {'user_form': user_form, 'profile_form': profile_form})  
     else:
         messages.success(request, ('You Must Be Logged In To View That Page...!')) 
         return redirect('home')  
     
+def update_password(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        if request.method == 'POST':
+            form = ChangePasswordFrom(current_user, request.POST)
+            if form.is_valid():
+               form.save()
+               messages.success(request, ('Your password has been updated...! Please Login..'))
+               return redirect('login')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)  
+                    return redirect('update_password') 
+        else:
+            form = ChangePasswordFrom(current_user)
+            return render(request, 'registration/update_password.html', {'form': form})
+    else:
+        messages.successs(request, ('You must be loggesd in to view that page...!'))
+        return redirect('home')       
+       
 
 
 
 
 
-
-
-# class UserRegisterView(generic.CreateView):
-#     form_class = SignUpForm
-#     template_name = 'registration/register.html'
-#     success_url = reverse_lazy('login')
-
-# class UserEditView(generic.UpdateView):
-#     form_class = EditProfileForm
-#     template_name = 'registration/edit_profile.html'
-    
-#     success_url = reverse_lazy('home')
-
-#     def get_object(self):
-#         return self.request.user
 

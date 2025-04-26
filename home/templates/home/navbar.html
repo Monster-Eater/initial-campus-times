@@ -16,7 +16,7 @@
 
       </ul>
       {% endif %}
-      <a class="navbar-brand" href=" {% url 'campus' %} ">The Campus Time's</a>
+      <a class="navbar-brand" href=" {% url 'campus' %} ">Alkosar SanaTios</a>
       
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -27,13 +27,26 @@
           <li class="nav-item">
             <a class="nav-link" href=" {% url 'home' %} ">Home</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href=" {% url 'video' %} ">CampusTube</a>
+          </li>
+
+          <!-- </html><li class="nav-item">
+            <a class="nav-link" href="#">Own Videos</a>
+          </li> -->
+
+
+
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Events
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href=" {% url 'add_category' %} ">Add category</a></li>
-              <li><a class="dropdown-item" href="{% url 'add-event' %}">Add Events</a></li>
+
+              <!-- <li><a class="dropdown-item" href=" {% url 'add_category' %} "></a></li> -->
+              
+              <li><a class="dropdown-item" href="{% url 'vant' %}">Past Events</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{% url 'list_events' %}"> Comming Events </a></li>
             </ul>
@@ -44,7 +57,7 @@
           </li>
           
           
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Tools
             </a>
@@ -55,9 +68,7 @@
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{% url 'predict' %}">Predict Diabetes</a></li>
               
-            </ul>
-          </li>
-        
+            </ul> -->
           {% else %} 
         
           <li class="nav-item">
@@ -71,7 +82,7 @@
               Search
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'search' %} ">Search Meeps</a></li>
+              <!-- <li><a class="dropdown-item" href="{% url 'search' %} ">Search Meeps</a></li> -->
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{% url 'search_user' %}">Search Users</a></li>
               <li><hr class="dropdown-divider"></li>
@@ -86,32 +97,32 @@
         <ul class="nav justify-content-end">
           <li class="nav-item dropdown ">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: black;">
-              Departments
+              Courses 
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item bg-body-secondary"  
-                href=" {% url 'rehb' %} ">Rehabilitation & Allied</a></li>              
+                href=" {% url 'rehb' %} ">Short Courses</a></li>              
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item bg-body-secondary" href=" {% url 'applied' %} ">Applied Sciencies</a></li>
+              <li><a class="dropdown-item bg-body-secondary" href=" {% url 'applied' %} ">Long Courses</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item bg-body-secondary" href=" {% url 'comp' %} "> Computer Sciencies </a></li>
+              <!-- <li><a class="dropdown-item bg-body-secondary" href=" {% url 'comp' %} ">Diploma Courses</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item bg-body-secondary" href="  {% url 'engin' %}"> Engineering </a></li>
+              <li><a class="dropdown-item bg-body-secondary" href="  {% url 'engin' %}">Online Courses</a></li> -->
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item bg-body-secondary" href=" {% url 'islamic_study' %} "> Islamic Studies </a></li>
+              <!-- <li><a class="dropdown-item bg-body-secondary" href=" {% url 'islamic_study' %} "> Islamic Studies </a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item bg-body-secondary" href=" {% url 'phsyco' %} "> Physcology </a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item bg-body-secondary" href=" {% url 'chemis' %} "> Chemistry </a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item bg-body-secondary" href=" {% url 'socio' %} "> Sociology </a></li>
+              <li><a class="dropdown-item bg-body-secondary" href=" {% url 'socio' %} "> Sociology </a></li> -->
             </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link" href=" {% url 'complaint' %} " style="color: black;" >Complaints</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" style="color:black;" >Review Articles</a>
+            <a class="nav-link" href=" {% url 'add-event' %}" style="color:black;" >Review Articles</a>
           </li>
 
           

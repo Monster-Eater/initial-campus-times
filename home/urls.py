@@ -1,11 +1,12 @@
 from django.urls import path 
 from home import views
-from .views import AddCategoryView, CategoryView
+from .views import AddCategoryView, CategoryView, AddCommentView
 
 urlpatterns = [
     # path('<int:year>/<str:month>/', views.home, name = 'home' )
     path('', views.campus, name = 'campus' ),
     path('home', views.home, name = 'home' ),
+    path('vant', views.vant, name = 'vant' ),
     path('events', views.all_events, name = 'list_events' ),
     path('add_venue', views.add_venue, name = 'add-venue' ),
     path('add_event', views.add_event, name = 'add-event' ),
@@ -59,4 +60,6 @@ urlpatterns = [
     path('edit_meep/<int:pk>', views.edit_meep, name = 'edit_meep'),
     path('search/', views.search, name = 'search'),
     path('search_user/', views.search_user, name = 'search_user'),
+    path('video/', views.video, name = 'video'),
+    path('meep/<int:pk>/comment/', AddCommentView.as_view(), name = 'add_comment'),
 ] 

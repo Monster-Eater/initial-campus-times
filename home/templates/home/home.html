@@ -60,11 +60,11 @@
 <div class="col-4">
 				<br/><br/><br/>
 {% if form %}
-<form  method=POST>
+<form  method=POST enctype="multipart/form-data" >
 	{% csrf_token %}
-  	{{ form.as_p }}
 
-
+	{{ form.media }}
+	{{ form.as_p }}
   <button type="submit" class="btn btn-secondary">Post Meep!</button>
 </form>
 {% endif %}
@@ -73,6 +73,4 @@
 {% endblock %}
 
 
- <br>
-                            {{ meep.body|slice:":50" }} <br>
 		  	

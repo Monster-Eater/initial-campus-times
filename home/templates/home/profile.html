@@ -21,7 +21,7 @@
 				<img src="{{ profile.profile_image.url }}" width=30 height=30 class="rounded-circle" alt="{{ profile.user.username }}">
 
 				{% else %}
-				<img src="{% static 'images/20th.png' %}" width=30 height=30 class="rounded-circle" alt="{{ profile.user.username }}">	
+				<img src=" {% static 'images/20th.jpg' %}" width=30 height=30 class="rounded-circle" alt="{{ profile.user.username }}">	
 				{% endif %}
 
 
@@ -70,9 +70,11 @@
 
 				{% if profile.profile_image %}
 				<img src="{{ profile.profile_image.url }}" width=70 height=70 class="rounded">
+				{% else %}
+				<img src=" {% static 'images/20th.jpg' %}" width=60 height=60 class="rounded-circle" alt="{{ profile.user.username }}">	
 				<br/><br/>
 				{% endif %}
-
+           <br><br>
 				{% if profile.homepage_link %}
 	<a href="{{ profile.homepage_link }}" target="new">
 				<i class="fa-solid fa-link" style="color:gray"></i></a>
@@ -95,9 +97,13 @@
 <br/><br/>
 
 {% if profile.profile_bio %}
-	<p align="justify">
+<div class="card">
+	<div class="card-text fs-6 fw-light">
+	<p class="fw-light fs-6" align="justify-center">
 		{{profile.profile_bio }}
 	</p>
+</div>
+</div>
 {% endif %}
 
 

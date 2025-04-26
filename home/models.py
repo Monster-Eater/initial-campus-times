@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.urls import reverse
-
+from . validators import file_size
+from ckeditor.fields import RichTextField
 
 class Donate(models.Model):
     name= models.CharField(max_length=120)
@@ -35,11 +36,9 @@ class Category(models.Model):
     
 #Create Meep Model
 class Meep(models.Model):
-    user = models.ForeignKey(
-        User, related_name= "meeps",
-        on_delete= models.DO_NOTHING
-    )
-    body = models.CharField(max_length=50000)
+    user = models.ForeignKey(User, related_name= "meeps",on_delete= models.DO_NOTHING)
+    body = RichTextField(blank=True, null = True)
+    # body = models.CharField(max_length=50000)
     created_at = models.DateTimeField(auto_now_add = True)
     likes = models.ManyToManyField(User, related_name = "meep_like", blank = True)
     category = models.CharField(max_length= 255, default='Entertainment')
@@ -125,3 +124,29 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Video(models.Model):
+    user = models.ForeignKey(User, related_name= "videos", on_delete= models.CASCADE)
+    caption = models.CharField(max_length=300)
+    video=models.FileField(upload_to="video/%y", validators=[file_size])
+    created_at = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self):
+        return self.caption + ' | ' + str(self.user)
+    def __str__(self):
+        return (
+            f'{self.user}'
+            f'({self.created_at:%Y-%m-%d %H:%M}):'
+            f"{self.video}..."
+            f"{self.caption}"
+           )
+    
+class Comment(models.Model):
+    post = models.ForeignKey(Meep, related_name="comments", on_delete= models.CASCADE )    
+    name = models.CharField(max_length= 255)
+    body = models.TextField()
+    date_added = models.DateField(auto_now_add= True)
+
+    def __str__(self):
+        return '%s - %s' % (self.post.title, self.name)

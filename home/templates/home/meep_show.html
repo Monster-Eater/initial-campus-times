@@ -3,75 +3,83 @@
 {% block title %}Show Meeps{% endblock title %}
 {% block content %}
 
+<br>
+<div class="container-sm">
+<figure class="text-center">
+    <blockquote class="blockquote">
+        <p>{{ meep.body|safe }}</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+        <!-- <small class="text-muted"> -->
+        {{ meep.category }} -
+        ({{ meep.created_at }}) By
+        @{{ meep.user.username }}
+        &nbsp; &nbsp; &nbsp;
+        {{ meep.number_of_likes }}
+
+        {% if user in meep.likes.all %}
+
+        <a href=" {% url 'meep_like' meep.id %} ">
+
+            <i class="fa-solid fa-heart" style="color:red"></i>
+
+        </a>
+        {% else %}
+        <a href=" {% url 'meep_like' meep.id %} ">
+
+            <i class="fa fa-heart-o" style="color:red"></i>
+
+        </a>
+
+        {% endif %}
+
+    </figcaption>
+</figure>
+
+
+</div>
+<div class="col-10">
+
+    <blockquote class="blockquote">
+    </blockquote>
+
+
+</div><br>
+
+
+
+<br>
+
+
+<hr>
+<br>
+<h2>Comments...</h2>
+<br>
+
+{% if not meep.comments.all %}
+<h3>No Comments Yet...!<a href="{% url 'add_comment' meep.pk %}" style="color: gray;">Add One</a> </h3>
 <br><br><br>
+{% else %}
+{% for comment in meep.comments.all %}
+<div class="card">
+    <div class="card-header">
+        <strong> {{ comment.name }} </strong>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title"> <b></b> {{ comment.body }}</h5>
+        <p class="card-text">
+            <li class="card-text"><b> Date:</b> {{ comment.date_added}} </li>
 
-<div class="container text-center">
-    <div class="row">
-        <div class="col-8">
+    </div>
 
+</div>
+<br>
 
-            
+{% endfor %}
 
-            
-            <div class="alert alert-dark" role="alert">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-1">
+<h3><a href="{% url 'add_comment' meep.pk %}" style="color: gray;" >Add One</a> </h3>
+<br><br><br>
+{% endif %}
 
-                            {% if meep.user.profile.profile_image %}
-                            <img src="{{ meep.user.profile.profile_image.url }}" width="70" height="70"
-                                alt="{{ profile.user.username }}" class="rounded-circle">
-
-                            {% else %}
-                            <img src=" {% static 'images/3rd.jpg' %} " width="70" height="70" class="rounded-circle"
-                                alt="{{ profile.user.username }}">
-                            {% endif %}
-
-
-
-                        </div>
-                        <div class="col-10">
-                           <p> {{ meep.body|safe }} </p>
-                                <small class="text-muted">
-                                     {{ meep.category }} -
-                                    ({{ meep.created_at }}) By
-                                    @{{ meep.user.username }}
-                                    &nbsp; &nbsp; &nbsp;
-                                     {{ meep.number_of_likes }}
-                            
-                            {% if user in meep.likes.all %}
-
-                            <a href=" {% url 'meep_like' meep.id %} ">
-
-                                <i class="fa-solid fa-heart" style="color:red"></i>
-
-                            </a>
-                            {% else %}
-                            <a href=" {% url 'meep_like' meep.id %} ">
-
-                                <i class="fa fa-heart-o" style="color:red"></i>
-
-                            </a>
-
-                            {% endif %}
-                            </small>
-                        </div><br>
-                    </div>
-                </div>
-            </div>
-        
-        </div>
-
-        <div class="col-4">
-            <br><br><br>---
-            {% if form %}
-            <form method=POST>
-                {% csrf_token %}
-                {{ form.as_p }}
-
-                <button type="submit" class="btn btn-secondary">Post Meep!</button>
-            </form>
-            {% endif %}
-        </div>
-
-        {% endblock content %}
+</div>
+{% endblock content %}

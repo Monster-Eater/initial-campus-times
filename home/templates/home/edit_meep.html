@@ -67,7 +67,9 @@
             {% if form %}
             <form method=POST>
                 {% csrf_token %}
+                <!-- {{ form.media }} -->
                 {{ form.as_p }}
+
 
                 <button type="submit" class="btn btn-secondary">Update Meep!</button>
             </form>

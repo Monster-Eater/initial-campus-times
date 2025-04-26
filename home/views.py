@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
 from django.http import HttpResponseRedirect
-from .models import Event, Profile, Meep, Complaint, Donate, Category
-from.forms import VenueForm, EventForm, MeepForm
+from .models import Event, Profile, Meep, Complaint, Donate, Category, Video, Comment
+from.forms import VenueForm, EventForm, MeepForm, Video_form, CommentForm
 from django.contrib import messages
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,12 +14,40 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from django.views.generic import CreateView, DetailView, ListView
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 
 
 
 
 #=================== Home =========================
+def vant(request):
+    return render(request,'home/vant.html')
+
+
+def video(request):
+    all_video=Video.objects.all().order_by("-created_at")
+    if request.method == "POST":
+        form=Video_form(data=request.POST, files= request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Uploaded Successfully....!")
+            return redirect('home') 
+    else:
+        form = Video_form()    
+    return render (request, 'home/video.html', {"form": form, 'all_video': all_video})
+
+# def ownvideo(request,pk):
+#     if request.user.is_authenticated:    
+#         if request.user.id == pk:
+#            video = Video.objects.all()
+#            form=Video_form(data=request.POST, files= request.FILES)    
+#         return render (request, 'home/ownvideo.html', {'video': video, 'form' : form})
+#     else:
+#         messages.success(request, 'Your must be logged in to view this page....!')
+#         return redirect('home')
+    
+
 
 def complaint(request):
     if request.method =="POST":
@@ -38,7 +66,7 @@ def profile(request, pk):
     if request.user.is_authenticated:        
         profile = Profile.objects.get(user_id = pk)
         meeps = Meep.objects.filter(user_id = pk).order_by("-created_at")
-
+        # videos = Video.objects.get(video).order_by("-created_at")
         if request.method =='POST':
             current_user_profile = request.user.profile
             action = request.POST['follow']
@@ -49,7 +77,8 @@ def profile(request, pk):
             current_user_profile.save()    
         return render (request, "home/profile.html", {
             "profile": profile,
-            'meeps': meeps
+            'meeps': meeps,
+            # 'viedos': videos,
         })
     else:
         messages.success(request, 'Your must be logged in to view this page....!')
@@ -141,6 +170,17 @@ def meep_show(request, pk):
 def CategoryView(request, cats):
     category_meeps = Meep.objects.filter(category=cats)
     return render(request, 'home/categories.html', {'cats': cats.title(), 'category_meeps':category_meeps})
+
+
+class AddCommentView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'home/add_comment.html'
+    def form_valid(self, form):
+        form.instance.post_id = self.kwargs['pk']
+        return super().form_valid(form)
+       
+    success_url = reverse_lazy('home')
 
 
 def delete_meep(request, pk):

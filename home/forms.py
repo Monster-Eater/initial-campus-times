@@ -1,6 +1,6 @@
 from django import forms
 from django.forms  import ModelForm
-from .models import Venue, Event, Meep, Category
+from .models import Venue, Event, Meep, Category, Video, Comment
 
 
 
@@ -16,6 +16,7 @@ class MeepForm(forms.ModelForm):
     title = forms.CharField(required=True,label = '', widget =forms.widgets.TextInput (attrs ={"placeholder" : "Enter Meep-Title!", "class" : "form-control"} ),)
     class Meta:
         model = Meep
+        fields = ('body', 'title', 'category')
         exclude = ("user", "likes", )
         widgets= {
     'category' :forms.Select(choices=choice_list, attrs={'class': 'form-control'})}
@@ -32,19 +33,19 @@ class EventForm(ModelForm):
 
         labels = {   
             'name': '',
-            'event_date':'YYYY-MM-DD HH:MM:SS',
-            'venue':'Venue',
-            'manager':'Manager',
-            'attendees':'Attendees',
+            'event_date':'YYYY-MM-DD',
+            'venue':'Category',
+            'manager':'Team Leader',
+            'attendees':'Athurs',
             'description' :'',
             'venue_image' :'',
         }
         widgets = {
-            'name': forms.TextInput(attrs= {'class': 'form-control', 'placeholder':'Event Name'}),
-            'event_date':forms.TextInput(attrs= {'class': 'form-control', 'placeholder':'Event Date' }),
-            'venue':forms.Select(attrs= {'class': 'form-select', 'placeholder':'Venue' }),
-            'manager':forms.Select(attrs= {'class': 'form-select', 'placeholder':'Manager'}),
-            'attendees':forms.SelectMultiple(attrs= {'class': 'form-select', 'placeholder':'Attendees'}),
+            'name': forms.TextInput(attrs= {'class': 'form-control', 'placeholder':'Article Name'}),
+            'event_date':forms.TextInput(attrs= {'class': 'form-control', 'placeholder':'Date' }),
+            'venue':forms.Select(attrs= {'class': 'form-select', 'placeholder':'Category' }),
+            'manager':forms.Select(attrs= {'class': 'form-select', 'placeholder':'Team Leader'}),
+            'attendees':forms.Select(attrs= {'class': 'form-select', 'placeholder':'Athurs'}),
             'description':forms.Textarea(attrs= {'class':'form-control', 'placeholder':'Description'}),
         }
 
@@ -70,4 +71,31 @@ class VenueForm(ModelForm):
             'phone':forms.TextInput(attrs= {'class': 'form-control', 'placeholder':'Contact Number'}),
             'web':forms.TextInput(attrs= {'class': 'form-control', 'placeholder':'Web Address'}),
             'email_address':forms.EmailInput(attrs= {'class':'form-control', 'placeholder':'Email Address'}),
+        }
+
+
+
+class Video_form(forms.ModelForm):
+    class Meta:
+        model=Video
+        fields  = ('caption', 'video', 'user')
+        labels = {   
+            'caption': '',
+            'video':'',
+            
+            
+        }
+        widgets = {
+            'caption': forms.TextInput(attrs= {'class': 'form-control', 'placeholder':'Give a Title'}),
+             'user' : forms.TextInput(attrs= {'class': 'form-control', 'value':'', 'id' : 'elder'}),
+        }
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name', 'body')
+        widgets = {
+            'name': forms.TextInput(attrs= {'class': 'form-control'}),
+             'body' : forms.Textarea(attrs= {'class': 'form-control'}),
         }
